@@ -156,8 +156,8 @@ module Rpush
         end
 
         def notification_to_xml
-          title = clean_param_string(n.data['title']) if @notification.data['title'].present?
-          body  = clean_param_string(n.data['body']) if @notification.data['body'].present?
+          title = clean_param_string(@notification.data['title']) if @notification.data['title'].present?
+          body  = clean_param_string(@notification.data['body']) if @notification.data['body'].present?
           param = @notification.data['param'] if @notification.data['param'].present?
 
           toast_attrs = {}
