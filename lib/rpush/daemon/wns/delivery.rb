@@ -156,18 +156,25 @@ module Rpush
         end
 
         def notification_to_xml
-          title = clean_param_string(@notification.data['title']) if @notification.data['title'].present?
-          body = clean_param_string(@notification.data['body']) if @notification.data['body'].present?
-          param = clean_param_string(@notification.data['param']) if @notification.data['param'].present?
-          "<toast>
-            <visual version='1' lang='en-US'>
-              <binding template='ToastText02'>
-                <text id='1'>#{title}</text>
-                <text id='2'>#{body}</text>
-                <param>#{param}</param>
-              </binding>
-            </visual>
-          </toast>"
+          title = clean_param_string(n.data['title']) if @notification.data['title'].present?
+          body  = clean_param_string(n.data['body']) if @notification.data['body'].present?
+          param = @notification.data['param'] if @notification.data['param'].present?
+
+          toast_attrs = {}
+          toast_attrs[:launch] = clean_param_string(param.to_s) if param
+          xml = Builder::XmlMarkup.new
+          xml.tag!('toast', toast_attrs) do
+            xml.tag!('visual') do
+              xml.tag!('binding', template: 'ToastImageAndText02') do
+                xml.tag!('text', id: 1) { xml.text!(title) } if title
+                xml.tag!('text', id: 2) { xml.text!(body) } if body
+                if param && param['banner_url'].present?
+                  xml.tag!('image', id: 1, src: param['banner_url'])
+                end
+              end
+            end
+          end
+          xml.target!
         end
 
         def clean_param_string(string)
