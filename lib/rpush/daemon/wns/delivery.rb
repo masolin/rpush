@@ -162,7 +162,7 @@ module Rpush
 
           toast_attrs = {}
           toast_attrs[:launch] = clean_param_string(param.to_s) if param
-          xml = Builder::XmlMarkup.new
+          xml = ::Builder::XmlMarkup.new
           xml.tag!('toast', toast_attrs) do
             xml.tag!('visual') do
               xml.tag!('binding', template: 'ToastImageAndText02') do
