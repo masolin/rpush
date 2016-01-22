@@ -160,21 +160,23 @@ module Rpush
           body  = clean_param_string(@notification.data['body']) if @notification.data['body'].present?
           param = @notification.data['param'] if @notification.data['param'].present?
 
-          toast_attrs = {}
-          toast_attrs[:launch] = clean_param_string(param.to_s) if param
-          xml = ::Builder::XmlMarkup.new
-          xml.tag!('toast', toast_attrs) do
-            xml.tag!('visual') do
-              xml.tag!('binding', template: 'ToastImageAndText02') do
-                xml.tag!('text', id: 1) { xml.text!(title) } if title
-                xml.tag!('text', id: 2) { xml.text!(body) } if body
-                if param && param['banner_url'].present?
-                  xml.tag!('image', id: 1, src: param['banner_url'])
-                end
-              end
-            end
+          xml_out =  ''
+          xml_out << '<toast'
+          xml_out <<        " launch=\"#{clean_param_string(param.to_s)}\"" if param
+          xml_out <<                                                      '>'
+
+          xml_out << '<visual><binding template=\"ToastImageAndText02\">'
+
+          xml_out << "<text id=\"1\">#{title}</text>" if title
+          xml_out << "<text id=\"2\">#{body}</text>" if body
+
+          if param && param['banner_url'].present?
+            xml_out << "image id=\"1\" src=\"#{param['banner_url']}\" />"
           end
-          xml.target!
+          xml_out << '</binding></visual>'
+          xml_out << '</toast>'
+
+          xml_out
         end
 
         def clean_param_string(string)
