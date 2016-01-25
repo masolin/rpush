@@ -165,7 +165,7 @@ module Rpush
           xml_out <<        " launch=\"#{clean_param_string(param.to_s)}\"" if param
           xml_out <<                                                      '>'
 
-          xml_out << '<visual><binding template=\"ToastImageAndText02\">'
+          xml_out << '<visual><binding template="ToastImageAndText02">'
 
           xml_out << "<text id=\"1\">#{title}</text>" if title
           xml_out << "<text id=\"2\">#{body}</text>" if body
