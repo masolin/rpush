@@ -171,7 +171,7 @@ module Rpush
           xml_out << "<text id=\"2\">#{body}</text>" if body
 
           if param && param['banner_url'].present?
-            xml_out << "image id=\"1\" src=\"#{param['banner_url']}\" />"
+            xml_out << "<image id=\"1\" src=\"#{param['banner_url']}\" />"
           end
           xml_out << '</binding></visual>'
           xml_out << '</toast>'
