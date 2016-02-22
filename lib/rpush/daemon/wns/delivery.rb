@@ -156,9 +156,25 @@ module Rpush
         end
 
         def notification_to_xml
-          title = clean_param_string(@notification.data['title']) if @notification.data['title'].present?
-          body  = clean_param_string(@notification.data['body']) if @notification.data['body'].present?
-          param = @notification.data['param'] if @notification.data['param'].present?
+          title         = clean_param_string(@notification.data['title'] || '')
+          body          = clean_param_string(@notification.data['body'] || '')
+          launch        = clean_param_string(@notification.data['launch'] || '')
+          banner_url    = clean_param_string(@notification.data['banner_url'] || '')
+
+          launch_string = launch.present? ? " launch='#{launch}'" : ''
+          banner_string = banner_url.present? ? "<image id='1' src='#{banner_url}' />" : ''
+
+          "<toast#{launch_string}>
+            <visual version='1' lang='en-US'>
+              <binding template='ToastImageAndText02'>
+                <text id='1'>#{title}</text>
+                <text id='2'>#{body}</text>
+                #{banner_string}
+              </binding>
+            </visual>
+          </toast>"
+=begin
+
 
           xml_out =  ''
           xml_out << '<toast'
@@ -177,6 +193,7 @@ module Rpush
           xml_out << '</toast>'
 
           xml_out
+=end
         end
 
         def clean_param_string(string)
