@@ -156,44 +156,23 @@ module Rpush
         end
 
         def notification_to_xml
-          title         = clean_param_string(@notification.data['title'] || '')
-          body          = clean_param_string(@notification.data['body'] || '')
-          launch        = clean_param_string(@notification.data['launch'] || '')
-          banner_url    = clean_param_string(@notification.data['banner_url'] || '')
+          title         = (@notification.data['title'] || '').to_s
+          body          = (@notification.data['body'] || '').to_s
+          launch        = (@notification.data['launch'] || '').to_s
+          banner_url    = (@notification.data['banner_url'] || '').to_s
 
-          launch_string = launch.present? ? " launch='#{launch}'" : ''
-          banner_string = banner_url.present? ? "<image id='1' src='#{banner_url}' />" : ''
+          launch_string = launch.present? ? " launch='#{clean_param_string(launch)}'" : ''
+          banner_string = banner_url.present? ? "<image id='1' src='#{clean_param_string(banner_url)}' />" : ''
 
           "<toast#{launch_string}>
             <visual version='1' lang='en-US'>
               <binding template='ToastImageAndText02'>
-                <text id='1'>#{title}</text>
-                <text id='2'>#{body}</text>
+                <text id='1'>#{clean_param_string(title)}</text>
+                <text id='2'>#{clean_param_string(body)}</text>
                 #{banner_string}
               </binding>
             </visual>
           </toast>"
-=begin
-
-
-          xml_out =  ''
-          xml_out << '<toast'
-          xml_out <<        " launch=\"#{clean_param_string(param.to_s)}\"" if param
-          xml_out <<                                                      '>'
-
-          xml_out << '<visual><binding template="ToastImageAndText02">'
-
-          xml_out << "<text id=\"1\">#{title}</text>" if title
-          xml_out << "<text id=\"2\">#{body}</text>" if body
-
-          if param && param['banner_url'].present?
-            xml_out << "<image id=\"1\" src=\"#{param['banner_url']}\" />"
-          end
-          xml_out << '</binding></visual>'
-          xml_out << '</toast>'
-
-          xml_out
-=end
         end
 
         def clean_param_string(string)
