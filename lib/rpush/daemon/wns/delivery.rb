@@ -25,7 +25,6 @@ module Rpush
         }
 
         def initialize(app, http, notification, batch)
-          puts 'delivery init'
           @app = app
           @http = http
           @notification = notification
@@ -133,7 +132,6 @@ module Rpush
         end
 
         def do_post
-          puts 'testtesttest'
           body = notification_to_xml
           uri = URI.parse(@notification.uri)
           post = Net::HTTP::Post.new(uri.request_uri,
@@ -175,7 +173,7 @@ module Rpush
               </binding>
             </visual>
           </toast>"
-          puts s
+          log_warn(s)
           s
         end
 
