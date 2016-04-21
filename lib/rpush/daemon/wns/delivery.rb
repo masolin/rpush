@@ -134,7 +134,6 @@ module Rpush
 
         def do_post
           body = notification_to_xml
-          binding.pry
           puts body
           log_warn(body.to_s)
           uri = URI.parse(@notification.uri)
