@@ -1,3 +1,3 @@
 module Rpush
-  VERSION = '2.5.1'
+  VERSION = '2.5.9'
 end
