@@ -139,7 +139,7 @@ module Rpush
           log_warn(body.to_s)
           uri = URI.parse(@notification.uri)
           post = Net::HTTP::Post.new(uri.request_uri,
-                                     "Content-Length" => body.length.to_s,
+                                     "Content-Length" => body.to_s.length.to_s,
                                      "Content-Type" => "text/xml",
                                      "X-WNS-Type" => "wns/toast",
                                      "X-WNS-RequestForStatus" => "true",
