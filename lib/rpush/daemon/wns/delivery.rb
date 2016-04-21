@@ -25,6 +25,7 @@ module Rpush
         }
 
         def initialize(app, http, notification, batch)
+          puts 'delivery init'
           @app = app
           @http = http
           @notification = notification
@@ -132,6 +133,7 @@ module Rpush
         end
 
         def do_post
+          puts 'testtesttest'
           body = notification_to_xml
           uri = URI.parse(@notification.uri)
           post = Net::HTTP::Post.new(uri.request_uri,
@@ -164,7 +166,7 @@ module Rpush
           launch_string = launch.present? ? " launch='#{clean_param_string(launch)}'" : ''
           banner_string = banner_url.present? ? "<image id='1' src='#{clean_param_string(banner_url)}' />" : ''
 
-          "<toast#{launch_string}>
+          s = "<toast#{launch_string}>
             <visual version='1' lang='en-US'>
               <binding template='ToastImageAndText02'>
                 <text id='1'>#{clean_param_string(title)}</text>
@@ -173,6 +175,8 @@ module Rpush
               </binding>
             </visual>
           </toast>"
+          puts s
+          s
         end
 
         def clean_param_string(string)
